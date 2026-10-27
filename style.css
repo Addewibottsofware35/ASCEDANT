@@ -1,0 +1,331 @@
+* { box-sizing: border-box; }
+:root {
+  --purple: #46108c;
+  --deep-purple: #270052;
+  --panel-purple: rgba(171, 102, 226, .50);
+  --chip: #45118a;
+  --chip-hover: #5c1baa;
+  --white: #fff;
+}
+html, body { width: 100%; min-height: 100%; margin: 0; }
+body {
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+  color: var(--white);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  background:
+    radial-gradient(ellipse at 47% 55%, rgba(126, 32, 221, .85) 0%, rgba(98, 20, 181, .9) 35%, transparent 68%),
+    linear-gradient(115deg, #7419dc 0%, #4b0a99 45%, #5e0085 100%);
+}
+.background-shape { position: fixed; pointer-events: none; }
+.shape-one {
+  width: 630px; height: 760px; left: 24%; top: -390px;
+  background: linear-gradient(135deg, rgba(35,0,78,.7), rgba(54,0,99,.35));
+  clip-path: polygon(0 0, 100% 0, 78% 100%, 38% 100%);
+}
+.shape-two {
+  width: 700px; height: 700px; right: -170px; top: -250px;
+  border-radius: 50%; background: linear-gradient(135deg, rgba(151,31,226,.9), rgba(96,0,144,.55));
+}
+.shape-three {
+  width: 650px; height: 650px; right: -220px; bottom: -450px;
+  border-radius: 50%; background: rgba(35,0,73,.55);
+}
+.topbar { position: absolute; inset: 0 0 auto 0; height: 58px; z-index: 5; }
+.brand {
+  position: absolute; left: 4px; top: 7px; height: 40px; max-width: 200px;
+  padding: 0; border: 0; color: #fff; background: transparent; cursor: pointer;
+  display: flex; align-items: center; gap: 5px;
+}
+#brandText {
+  font-family: Georgia, "Arial Rounded MT Bold", Arial, sans-serif;
+  font-weight: 1000; font-size: 29px; letter-spacing: -2.1px;
+  text-shadow: .7px .7px 0 #fff; transform: scaleY(1.04);
+}
+#brandImage { display: none; max-width: 180px; max-height: 42px; object-fit: contain; }
+.top-controls {
+  position: absolute; right: 15px; top: 4px; height: 48px;
+  display: flex; align-items: center; border-radius: 8px;
+  background: rgba(48, 28, 67, .88); box-shadow: 0 1px 0 rgba(255,255,255,.12) inset;
+  overflow: hidden;
+}
+.top-controls button { color: #fff; border: 0; background: transparent; cursor: pointer; }
+.mode-button { display: flex; align-items: center; gap: 9px; height: 100%; padding: 0 12px; font-size: 14px; font-weight: 750; min-width: 140px; }
+.mode-icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 5px; background: #7938e8; font-size: 21px; }
+.chevron { font-size: 20px; margin-left: 1px; transform: translateY(-3px); }
+.icon-button { width: 45px; height: 100%; display: grid; place-items: center; border-left: 1px solid rgba(255,255,255,.15) !important; }
+.icon-button:hover, .mode-button:hover { background: rgba(255,255,255,.1); }
+.icon-button svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.close-button { width: 48px; }
+.hidden { display: none !important; }
+
+.lobby-panel {
+  position: absolute; width: min(716px, calc(100vw - 30px)); height: min(537px, calc(100vh - 78px));
+  min-height: 430px; left: 50%; top: 52px; transform: translateX(-50%);
+  border: 1px solid rgba(255,255,255,.25); border-radius: 16px;
+  background: rgba(184, 122, 229, .40);
+  box-shadow: 0 1px 0 rgba(255,255,255,.07) inset;
+  overflow: hidden;
+}
+.participant-count {
+  position: absolute; top: 15px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 7px; height: 27px; padding: 0 12px;
+  border-radius: 5px; background: #4a148d; white-space: nowrap;
+  font-size: 12px; font-weight: 750;
+}
+.person-icon { font-size: 13px; }
+.participants {
+  position: absolute; top: 56px; left: 50%; transform: translateX(-50%);
+  width: 92%; display: flex; flex-direction: column; align-items: center; gap: 7px;
+}
+.player-card {
+  min-height: 41px; display: inline-flex; align-items: center; justify-content: flex-start;
+  gap: 8px; border: 0; border-radius: 9px; background: var(--chip); color: white;
+  padding: 3px 13px 3px 7px; cursor: pointer; font-size: 17px; font-weight: 760;
+  box-shadow: 0 1px 0 rgba(255,255,255,.035) inset;
+  transition: background .14s ease, transform .14s ease;
+}
+.player-card:hover { background: var(--chip-hover); transform: translateY(-1px); }
+.player-card.selected { outline: 2px solid rgba(255,255,255,.78); outline-offset: 1px; }
+.player-avatar {
+  width: 40px; height: 36px; flex: 0 0 40px; display: grid; place-items: center;
+  font-size: 29px; line-height: 1; border-radius: 50%;
+  filter: saturate(1.12); text-shadow: 0 1px 0 rgba(0,0,0,.1);
+}
+.avatar-gold { background: radial-gradient(circle at 50% 45%, #ffd34f 0 43%, transparent 45%); }
+.avatar-brown { background: radial-gradient(circle, #8d4c28 0 45%, transparent 47%); }
+.avatar-pink { background: radial-gradient(circle, #ffb0ce 0 44%, transparent 46%); }
+.avatar-cyan { background: radial-gradient(circle, #45d4e8 0 44%, transparent 46%); }
+.avatar-white { background: radial-gradient(circle, #eee 0 44%, transparent 46%); }
+.avatar-green { background: radial-gradient(circle, #ffb83e 0 44%, transparent 46%); }
+.avatar-purple { background: radial-gradient(circle, #7c35c5 0 44%, transparent 46%); }
+.avatar-orange { background: radial-gradient(circle, #f3a04a 0 44%, transparent 46%); }
+.player-row { display: flex; align-items: center; justify-content: center; gap: 7px; flex-wrap: nowrap; }
+.player-name { white-space: nowrap; }
+.selected-player {
+  position: absolute; left: 50%; bottom: 15px; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+}
+.selected-avatar-wrap { position: relative; width: 83px; height: 83px; margin-bottom: 15px; }
+.selected-avatar {
+  width: 83px; height: 83px; padding: 0; overflow: hidden; border: 0; border-radius: 8px;
+  background: #4b128b; color: white; display: grid; place-items: center; cursor: pointer;
+}
+#selectedEmoji { font-size: 60px; line-height: 1; filter: saturate(1.2); }
+#selectedAvatarImage { display: none; width: 100%; height: 100%; object-fit: cover; }
+.edit-avatar {
+  position: absolute; right: -15px; top: -15px; width: 33px; height: 33px; border: 0;
+  border-radius: 50%; background: #fff; color: #111; cursor: pointer; display: grid; place-items: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,.12);
+}
+.edit-avatar svg { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.selected-name { font-size: 0; height: 0; overflow: hidden; }
+.start-button {
+  width: 280px; max-width: calc(100vw - 90px); height: 48px; border: 0; border-radius: 4px;
+  background: #303030; color: #fff; font-size: 17px; font-weight: 800; cursor: pointer;
+  margin-top: 0; transition: background .15s ease, transform .15s ease;
+}
+.start-button:hover { background: #242424; transform: translateY(-1px); }
+.start-button:active { transform: translateY(1px); }
+
+.settings-popover, .mode-menu {
+  position: absolute; z-index: 20; top: 60px; right: 15px; width: min(365px, calc(100vw - 30px));
+  padding: 15px; border: 1px solid rgba(255,255,255,.18); border-radius: 12px;
+  background: #301344; color: white; box-shadow: 0 12px 40px rgba(0,0,0,.28);
+}
+.popover-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px; }
+.popover-heading strong { font-size: 15px; }
+.popover-heading button { background: transparent; border: 0; color: #fff; font-size: 25px; cursor: pointer; }
+.upload-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid rgba(255,255,255,.12); cursor: pointer; }
+.upload-row strong { display: block; font-size: 13px; }
+.upload-row small { display: block; color: #d9c8e9; font-size: 11px; margin-top: 4px; line-height: 1.35; }
+.upload-action { background: #7130bd; padding: 8px 10px; border-radius: 6px; white-space: nowrap; font-size: 12px; font-weight: 750; }
+.popover-note { color: #d9c8e9; font-size: 11px; line-height: 1.45; padding-top: 9px; }
+.mode-menu { width: 170px; right: 180px; padding: 6px; }
+.mode-menu button { width: 100%; display: block; text-align: left; color: white; background: transparent; border: 0; border-radius: 6px; padding: 10px; cursor: pointer; font-size: 13px; }
+.mode-menu button:hover { background: rgba(255,255,255,.12); }
+.toast {
+  position: fixed; left: 50%; bottom: 20px; z-index: 50; transform: translate(-50%, 15px);
+  opacity: 0; pointer-events: none; background: #241032; color: white; border: 1px solid rgba(255,255,255,.15);
+  border-radius: 8px; padding: 11px 16px; font-size: 13px; box-shadow: 0 6px 25px rgba(0,0,0,.2);
+  transition: opacity .2s ease, transform .2s ease;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (max-width: 760px) {
+  .lobby-panel { top: 68px; height: calc(100vh - 84px); min-height: 450px; }
+  .participants { top: 58px; width: 96%; gap: 6px; }
+  .player-row { gap: 5px; }
+  .player-card { min-height: 37px; padding: 2px 8px 2px 5px; gap: 5px; font-size: clamp(11px, 2.4vw, 15px); }
+  .player-avatar { width: 31px; flex-basis: 31px; height: 30px; font-size: 23px; }
+  .mode-button { min-width: 110px; padding: 0 7px; gap: 6px; font-size: 12px; }
+  .mode-icon { width: 27px; height: 27px; font-size: 17px; }
+  .icon-button { width: 37px; }
+  .close-button { width: 39px; }
+  .top-controls { right: 7px; }
+  .brand { left: 8px; }
+  #brandText { font-size: 25px; }
+  .selected-player { bottom: 12px; }
+}
+@media (max-height: 540px) {
+  .lobby-panel { top: 47px; height: calc(100vh - 60px); min-height: 0; }
+  .participants { top: 48px; gap: 4px; }
+  .player-card { min-height: 31px; font-size: 14px; }
+  .player-avatar { height: 27px; font-size: 22px; }
+  .selected-player { bottom: 8px; }
+  .selected-avatar-wrap, .selected-avatar { width: 63px; height: 63px; }
+  #selectedEmoji { font-size: 45px; }
+  .selected-avatar-wrap { margin-bottom: 8px; }
+  .start-button { height: 40px; }
+}
+
+
+.music-controls {
+  padding: 10px 0 3px;
+  border-top: 1px solid rgba(255,255,255,.12);
+}
+.music-control-buttons { display: flex; flex-wrap: wrap; gap: 7px; }
+.music-control-buttons button {
+  color: #fff; background: #7130bd; border: 0; border-radius: 6px;
+  padding: 8px 10px; cursor: pointer; font-size: 12px; font-weight: 750;
+}
+.music-control-buttons button:hover { background: #8543d2; }
+.volume-control { display: grid; grid-template-columns: 1fr auto; gap: 7px; align-items: center; margin-top: 12px; font-size: 12px; font-weight: 700; }
+.volume-control input { grid-column: 1 / -1; width: 100%; accent-color: #c79bff; cursor: pointer; }
+.loop-control { display: flex; align-items: center; gap: 7px; margin-top: 8px; color: #e7d9f5; font-size: 12px; cursor: pointer; }
+.loop-control input { accent-color: #a56bf0; }
+.music-status { margin-top: 8px; font-size: 11px; line-height: 1.4; color: #d9c8e9; overflow-wrap: anywhere; }
+
+
+/* Pembaruan panel pengaturan dan pemutar musik */
+.settings-popover {
+  max-height: calc(100vh - 76px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(221, 190, 255, .65) rgba(255,255,255,.06);
+}
+.settings-popover::-webkit-scrollbar { width: 7px; }
+.settings-popover::-webkit-scrollbar-track { background: rgba(255,255,255,.05); border-radius: 10px; }
+.settings-popover::-webkit-scrollbar-thumb { background: rgba(221,190,255,.55); border-radius: 10px; }
+
+.music-controls {
+  padding: 11px 0 4px;
+  border-top: 1px solid rgba(255,255,255,.12);
+}
+.music-file-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 3px 0 10px;
+}
+.music-disc {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #a45af1, #5b21a5);
+  font-size: 25px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.18);
+}
+.music-file-details { min-width: 0; flex: 1; }
+.music-file-details strong {
+  display: block;
+  color: #fff;
+  font-size: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.music-file-details small {
+  display: block;
+  color: #d9c8e9;
+  font-size: 11px;
+  line-height: 1.35;
+  margin-top: 4px;
+}
+.music-remove-button {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 8px;
+  color: white;
+  background: rgba(255,255,255,.08);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.music-remove-button:hover:not(:disabled) { background: rgba(255,255,255,.18); }
+.music-remove-button:disabled { opacity: .35; cursor: not-allowed; }
+.music-progress-row {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 34px;
+  align-items: center;
+  gap: 8px;
+  color: #d9c8e9;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  margin: 2px 0 11px;
+}
+.music-progress-row input {
+  width: 100%;
+  min-width: 0;
+  accent-color: #d5b1ff;
+  cursor: pointer;
+}
+.music-progress-row input:disabled { opacity: .4; cursor: not-allowed; }
+.music-control-buttons { display: flex; flex-wrap: wrap; gap: 7px; }
+.music-control-buttons button {
+  color: #fff;
+  background: #7130bd;
+  border: 0;
+  border-radius: 6px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 750;
+  transition: background .15s ease, transform .15s ease, opacity .15s ease;
+}
+.music-control-buttons button:hover:not(:disabled) { background: #8543d2; transform: translateY(-1px); }
+.music-control-buttons button:disabled { opacity: .4; cursor: not-allowed; }
+#musicMuteButton { background: #4b2868; }
+#musicMuteButton:hover:not(:disabled) { background: #613584; }
+.volume-control {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 7px;
+  align-items: center;
+  margin-top: 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.volume-control input {
+  grid-column: 1 / -1;
+  width: 100%;
+  accent-color: #c79bff;
+  cursor: pointer;
+}
+.loop-control {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 8px;
+  color: #e7d9f5;
+  font-size: 12px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.loop-control input { accent-color: #a56bf0; flex: 0 0 auto; }
+
+@media (max-width: 540px) {
+  .settings-popover { right: 8px; top: 60px; width: calc(100vw - 16px); max-height: calc(100vh - 72px); }
+  .mode-menu { right: 150px; }
+  .player-row { flex-wrap: wrap; }
+  .player-card { max-width: 100%; }
+  .music-control-buttons button { flex: 1 1 auto; }
+}
