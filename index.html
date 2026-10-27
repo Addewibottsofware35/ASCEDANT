@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lobby Kuis Interaktif</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="background-shape shape-one"></div>
+  <div class="background-shape shape-two"></div>
+  <div class="background-shape shape-three"></div>
+
+  <header class="topbar">
+    <button class="brand" id="brandButton" title="Klik untuk mengganti logo" aria-label="Ganti logo">
+      <span id="brandText">Kahoot!</span>
+      <img id="brandImage" alt="Logo kustom">
+    </button>
+    <input id="logoInput" type="file" accept="image/*" hidden>
+
+    <div class="top-controls">
+      <button class="mode-button" id="modeButton" aria-expanded="false">
+        <span class="mode-icon">🎮</span><span id="modeLabel">Klasik</span><span class="chevron">⌄</span>
+      </button>
+      <button class="icon-button sound-button" id="soundToggle" title="Aktif/nonaktifkan suara" aria-label="Suara">
+        <svg id="soundOnIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M16 9a5 5 0 0 1 0 6M18.5 6.5a8.5 8.5 0 0 1 0 11"/></svg>
+        <svg id="soundOffIcon" viewBox="0 0 24 24" aria-hidden="true" class="hidden"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="m17 9 5 6m0-6-5 6"/></svg>
+      </button>
+      <button class="icon-button" id="settingsButton" title="Pengaturan" aria-label="Pengaturan">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z"/><path d="m19.4 13.5 1.1.8-1.6 2.8-1.3-.5a7.8 7.8 0 0 1-1.7 1l-.2 1.4h-3.3l-.2-1.4a7.8 7.8 0 0 1-1.8-1l-1.2.5-1.7-2.8 1.1-.8a7.1 7.1 0 0 1 0-2l-1.1-.8 1.7-2.8 1.2.5a7.8 7.8 0 0 1 1.8-1l.2-1.4h3.3l.2 1.4a7.8 7.8 0 0 1 1.7 1l1.3-.5 1.6 2.8-1.1.8a7.1 7.1 0 0 1 0 2Z"/></svg>
+      </button>
+      <button class="icon-button close-button" id="closeButton" title="Tutup" aria-label="Tutup">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="lobby-panel" id="lobbyPanel">
+    <div class="participant-count"><span class="person-icon">♟</span><span id="participantCount">10 peserta</span></div>
+
+    <section class="participants" id="participants" aria-label="Daftar peserta">
+      <button class="player-card" data-name="Sir Chuck" data-emoji="🐵"><span class="player-avatar avatar-gold">🐵</span><span class="player-name">Sir Chuck</span></button>
+      <button class="player-card" data-name="Bambang" data-emoji="🤠"><span class="player-avatar avatar-brown">🤠</span><span class="player-name">Bambang</span></button>
+      <button class="player-card" data-name="Si lincah" data-emoji="🐰"><span class="player-avatar avatar-pink">🐰</span><span class="player-name">Si lincah</span></button>
+      <button class="player-card" data-name="Gobbles" data-emoji="👾"><span class="player-avatar avatar-cyan">👾</span><span class="player-name">Gobbles</span></button>
+      <button class="player-card" data-name="Gesit" data-emoji="🤍"><span class="player-avatar avatar-white">🤍</span><span class="player-name">Gesit</span></button>
+      <button class="player-card" data-name="Pegasus" data-emoji="🦄"><span class="player-avatar avatar-pink">🦄</span><span class="player-name">Pegasus</span></button>
+      <button class="player-card" data-name="Whiskers" data-emoji="🦁"><span class="player-avatar avatar-gold">🦁</span><span class="player-name">Whiskers</span></button>
+      <button class="player-card" data-name="Hen Solo" data-emoji="🥸"><span class="player-avatar avatar-green">🥸</span><span class="player-name">Hen Solo</span></button>
+      <button class="player-card" data-name="Nightwing" data-emoji="😈"><span class="player-avatar avatar-purple">😈</span><span class="player-name">Nightwing</span></button>
+      <button class="player-card" data-name="Piñata" data-emoji="🐵"><span class="player-avatar avatar-orange">🐵</span><span class="player-name">Piñata</span></button>
+    </section>
+
+    <div class="selected-player">
+      <div class="selected-avatar-wrap">
+        <button class="selected-avatar" id="selectedAvatarButton" title="Klik untuk memilih gambar avatar" aria-label="Ganti avatar">
+          <span id="selectedEmoji">😈</span><img id="selectedAvatarImage" alt="Avatar pilihan">
+        </button>
+        <button class="edit-avatar" id="editAvatarButton" title="Unggah avatar" aria-label="Unggah avatar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 16.5-.8 4.3 4.3-.8L19.7 7.8a2.1 2.1 0 0 0-3-3L4 16.5Z"/><path d="m14.8 6.7 3 3"/></svg>
+        </button>
+        <input id="avatarInput" type="file" accept="image/*" hidden>
+      </div>
+      <div class="selected-name" id="selectedName">Nightwing</div>
+      <button class="start-button" id="startButton">Oke, mulai!</button>
+    </div>
+  </main>
+
+  <div class="settings-popover hidden" id="settingsPopover" role="dialog" aria-label="Pengaturan lobby">
+    <div class="popover-heading"><strong>Pengaturan tampilan</strong><button id="closeSettings" aria-label="Tutup pengaturan">×</button></div>
+    <label class="upload-row">
+      <span><strong>Logo bagian atas</strong><small>Masukkan logo PNG, JPG, atau SVG</small></span>
+      <span class="upload-action">Pilih logo<input id="logoInputSettings" type="file" accept="image/*" hidden></span>
+    </label>
+    <label class="upload-row">
+      <span><strong>Avatar pilihan</strong><small>Ganti gambar avatar di bagian bawah</small></span>
+      <span class="upload-action">Pilih avatar<input id="avatarInputSettings" type="file" accept="image/*" hidden></span>
+    </label>
+    <label class="upload-row">
+      <span><strong>Efek suara sendiri</strong><small>Unggah audio untuk bunyi klik/interaksi</small></span>
+      <span class="upload-action">Pilih audio<input id="soundInput" type="file" accept="audio/*" hidden></span>
+    </label>
+    <label class="upload-row">
+      <span><strong>Musik latar</strong><small>Unggah MP3, WAV, OGG, atau audio lain untuk diputar sebagai musik latar</small></span>
+      <span class="upload-action">Tambah musik<input id="musicInput" type="file" accept="audio/*" hidden></span>
+    </label>
+    <div class="music-controls">
+      <div class="music-file-row">
+        <div class="music-disc" aria-hidden="true">♫</div>
+        <div class="music-file-details">
+          <strong id="musicFileName">Belum ada musik</strong>
+          <small id="musicStatus">Pilih file musik untuk digunakan sebagai suara latar.</small>
+        </div>
+        <button type="button" class="music-remove-button" id="musicRemoveButton" title="Hapus musik" aria-label="Hapus musik" disabled>×</button>
+      </div>
+
+      <div class="music-progress-row">
+        <span id="musicCurrentTime">0:00</span>
+        <input id="musicProgress" type="range" min="0" max="1000" value="0" aria-label="Posisi pemutaran musik" disabled>
+        <span id="musicDuration">0:00</span>
+      </div>
+
+      <div class="music-control-buttons">
+        <button type="button" id="musicPlayButton" disabled>▶ Putar musik</button>
+        <button type="button" id="musicPauseButton" disabled>Ⅱ Jeda</button>
+        <button type="button" id="musicStopButton" disabled>■ Stop</button>
+        <button type="button" id="musicMuteButton" disabled>🔇 Bisukan musik</button>
+      </div>
+
+      <label class="volume-control" for="musicVolume">
+        <span>Volume musik</span><span id="musicVolumeValue">25%</span>
+        <input id="musicVolume" type="range" min="0" max="100" value="25">
+      </label>
+
+      <label class="loop-control"><input id="musicLoop" type="checkbox" checked> Putar berulang sebagai suara latar</label>
+      <label class="loop-control"><input id="musicAutoStart" type="checkbox" checked> Mulai musik saat klik “Oke, mulai!”</label>
+    </div>
+    <div class="popover-note">Tip: klik peserta untuk memilihnya. Klik dua kali namanya untuk mengubah nama.</div>
+  </div>
+
+  <div class="mode-menu hidden" id="modeMenu">
+    <button data-mode="Klasik">🎮 Klasik</button>
+    <button data-mode="Tim">👥 Tim</button>
+    <button data-mode="Akurasi">🎯 Akurasi</button>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <audio id="customSound" preload="auto"></audio>
+  <audio id="backgroundMusic" preload="metadata"></audio>
+  <script src="script.js"></script>
+</body>
+</html>
